@@ -24,10 +24,18 @@ const getProductById = async (req, res) => {
 };
 const createProduct = async (req, res) => {
   try {
-    const product = await models.Product.create(req.body);
-    res.status(201).json({
-      product,
+    const { categoryId } = req.body;
+    const category = await models.categorie.findOne({
+      where: { id: categoryId },
     });
+    if (!category) {
+      res.status(404).send("Category with the specified ID does not exists");
+    } else {
+      const product = await models.Product.create(req.body);
+      res.status(201).json({
+        product,
+      });
+    }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
