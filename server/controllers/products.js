@@ -24,14 +24,28 @@ const getProductById = async (req, res) => {
 };
 const createProduct = async (req, res) => {
   try {
-    const { categoryId } = req.body;
+    const { categorieId } = req.body;
+    if (!categorieId) {
+      res.status(400).send({
+        message: "Categorie is required",
+      });
+    }
     const category = await models.categorie.findOne({
-      where: { id: categoryId },
+      where: { id: categorieId },
     });
     if (!category) {
-      res.status(404).send("Category with the specified ID does not exists");
+      res.status(404).send({
+        message: "Categorie with the specified ID does not exists",
+      });
     } else {
-      const product = await models.Product.create(req.body);
+      const { name, price, quantity, color } = req.body;
+      const product = await models.Product.create({
+        name,
+        price,
+        quantity,
+        color,
+        categorieId,
+      });
       res.status(201).json({
         product,
       });

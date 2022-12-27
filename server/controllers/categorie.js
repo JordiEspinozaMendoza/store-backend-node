@@ -8,6 +8,21 @@ const getCategories = async (req, res) => {
     res.status(500).send(error.message);
   }
 };
+const createCategory = async (req, res) => {
+  try {
+    const { name } = req.body;
+    const item = await models.categorie.create({ name });
+    if (item) {
+      res.status(201).json({
+        message: "Category created successfully",
+        item,
+        dateCreated: new Date(),
+      });
+    }
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
 const getCategoryById = async (req, res) => {
   try {
     const item = await models.categorie.findOne({
@@ -27,4 +42,5 @@ const getCategoryById = async (req, res) => {
 module.exports = {
   getCategories,
   getCategoryById,
+  createCategory
 };
