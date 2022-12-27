@@ -8,7 +8,8 @@ const verifyToken = (req, res, next) => {
       res.status(401).send("Access denied. No token provided.");
     }
     const bearerToken = headerToken.split(" ")[1];
-    const decoded = jwt.verify(bearerToken, config.JWT_SECRET);
+    const decoded = jwt.verify(bearerToken, config.TOKEN_KEY);
+    req.token = bearerToken;
     req.user = decoded;
     next();
   } catch (error) {

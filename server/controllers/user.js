@@ -1,5 +1,4 @@
 const models = require("../../database/models");
-const { verifyToken } = require("../../utils/auth");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = process.env;
